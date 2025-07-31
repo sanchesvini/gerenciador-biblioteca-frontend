@@ -52,6 +52,25 @@ export const LivroService = {
             throw new Error(`Erro ao excluir livro com ID ${id}`);
         }
     }
+    ,
+    async emprestarLivro(idLivro: number, idUsuario: number): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${idLivro}/emprestar/${idUsuario}`, {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao emprestar livro com ID ${idLivro}`);
+        }
+    },
+    async devolverLivro(id: number): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${id}/devolver`, {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro ao devolver livro.");
+        }
+    }
 
 
 };
