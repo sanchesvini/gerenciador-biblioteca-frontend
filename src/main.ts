@@ -1,4 +1,5 @@
 import { formularioLivro } from "./components/LivroForm";
+import { menu } from "./components/menu/Menu";
 import { formularioUsuario } from "./components/UsuarioForm";
 import { LivroController } from "./controllers/LivroController";
 import { UsuarioController } from "./controllers/UsuarioController";
@@ -21,7 +22,15 @@ async function inicializarFormularioUsuario() {
     container.appendChild(form);
 }
 
+function carregarMenu() {
+    const menuContainer = document.getElementById('menu');
+    if (menuContainer) {
+        menuContainer.appendChild(menu());
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    carregarMenu();
     carregarLivros();
     inicializarFormularioLivro();
     carregarUsuarios();
