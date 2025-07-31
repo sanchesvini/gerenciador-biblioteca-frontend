@@ -1,4 +1,4 @@
-import type { UsuarioRequest } from "../models/usuario";
+import type { UsuarioRequest, UsuarioResponse } from "../models/usuario";
 import { UsuarioService } from "../services/UsuarioService";
 
 export class UsuarioController {
@@ -11,6 +11,17 @@ export class UsuarioController {
         await UsuarioService.cadastrarUsuario(novoUsuario);
         form.reset();
 
+
+    }
+    static async listarUsuarios(): Promise<UsuarioResponse[]> {
+        return await UsuarioService.listarUsuarios();
+
+    }
+    static async carregarFormEditarUsuario(id: number): Promise<void> {
+    }
+    static async editarUsuario(form: HTMLFormElement, id: number): Promise<void> { }
+
+    static async excluirUsuario(id: number): Promise<void> {
 
     }
 }
