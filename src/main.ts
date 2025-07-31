@@ -3,6 +3,7 @@ import { formularioUsuario } from "./components/UsuarioForm";
 import { LivroController } from "./controllers/LivroController";
 import { UsuarioController } from "./controllers/UsuarioController";
 import { carregarLivros } from "./ui/LivroUI";
+import { carregarUsuarios } from "./ui/UsuarioUI";
 
 async function inicializarFormularioLivro() {
     const container = document.getElementById('formulario-livro');
@@ -23,6 +24,7 @@ async function inicializarFormularioUsuario() {
 document.addEventListener('DOMContentLoaded', () => {
     carregarLivros();
     inicializarFormularioLivro();
+    carregarUsuarios();
     inicializarFormularioUsuario();
 
 });
