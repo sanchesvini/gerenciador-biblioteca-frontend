@@ -21,5 +21,27 @@ export const LivroService = {
             throw new Error(`Erro ao listar livros`);
         }
         return await response.json();
+    },
+    async obterLivroPorId(id: number): Promise<LivroResponse> {
+        const response = await fetch(`${API_BASE_URL}/${id}`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar livro com ID ${id}`);
+        }
+        return await response.json();
+    },
+    async editarLivro(id: number, livro: LivroRequest): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(livro)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao editar livro com ID ${id}`);
+        }
     }
+
+
 };

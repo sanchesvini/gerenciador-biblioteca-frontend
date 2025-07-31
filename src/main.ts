@@ -1,5 +1,6 @@
 import { itemLivros } from "./components/ItemLivros";
 import { formularioLivro } from "./components/LivroForm";
+import { LivroController } from "./controllers/LivroController";
 
 async function carregarLivros() {
     const container = document.getElementById('tbody-livros');
@@ -15,7 +16,7 @@ async function inicializarFormulario() {
     const container = document.getElementById('formulario-livro');
     if (!container) return;
 
-    const form = await formularioLivro();
+    const form = await formularioLivro(LivroController.cadastrarLivro);
     container.appendChild(form);
 }
 
