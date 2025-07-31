@@ -1,6 +1,6 @@
 import { carregarLivros } from "../../ui/LivroUI";
 import { carregarUsuarios } from "../../ui/UsuarioUI";
-import { botaoCadastrar } from "../BotaoCadastrar";
+import { botaoCadastrar } from "../botao-cadastrar/BotaoCadastrar";
 import { abrirModalLivro, abrirModalUsuario } from "../Modal";
 import './menu.css';
 
@@ -19,6 +19,15 @@ export function menu(): HTMLElement {
 
     const btnLivros = header.querySelector('#btn-livros') as HTMLButtonElement;
     const btnUsuarios = header.querySelector('#btn-usuarios') as HTMLButtonElement;
+    btnLivros.classList.add('selected');
+
+    if (btnLivros.classList.contains('selected')) {
+        const areaAcoes = document.getElementById('area-acoes');
+        if (areaAcoes) {
+            areaAcoes.innerHTML = '';
+            areaAcoes.appendChild(botaoCadastrar("cadastrar livro", abrirModalLivro));
+        }
+    }
 
     btnLivros.addEventListener('click', () => {
         btnLivros.classList.add('selected');
