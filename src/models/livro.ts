@@ -8,6 +8,6 @@ export interface LivroResponse {
     titulo: string;
     autor: string;
     anoPublicacao: number;
-    disponivel: boolean;
+    disponivel: boolean | number;
     nomeUsuario: string | null;
 }

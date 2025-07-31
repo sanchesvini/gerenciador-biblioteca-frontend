@@ -1,6 +1,7 @@
 import { formularioLivro } from "../components/LivroForm";
 import type { LivroRequest, LivroResponse } from "../models/livro";
 import { LivroService } from "../services/LivroService";
+import { UsuarioService } from "../services/UsuarioService";
 import { carregarLivros } from "../ui/LivroUI";
 
 export class LivroController {
@@ -50,6 +51,30 @@ export class LivroController {
     }
     static async excluirLivro(id: number): Promise<void> {
         await LivroService.excluirLivro(id);
+        carregarLivros();
+    }
+    static async carregarFormEmprestarLivro(id: number): Promise<void> {
+        const livro = await LivroService.obterLivroPorId(id);
+        const usuarios = await UsuarioService.listarUsuarios();
+        const container = document.getElementById('formulario-livro');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const form = await formularioLivro(
+            (form) => LivroController.emprestarLivro(form, id),
+            livro,
+            usuarios
+        );
+
+        container.appendChild(form);
+    }
+    static async emprestarLivro(form: HTMLFormElement, id: number): Promise<void> {
+        const formData = new FormData(form);
+        const idUsuario = parseInt(formData.get("usuarioId") as string);
+
+        await LivroService.emprestarLivro(id, idUsuario);
+        form.reset();
         carregarLivros();
     }
 }
