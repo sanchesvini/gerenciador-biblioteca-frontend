@@ -43,4 +43,13 @@ export const UsuarioService = {
         }
     }
     ,
+    async excluirUsuario(id: number): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao excluir usuario com ID ${id}`);
+        }
+    }
 }
