@@ -46,4 +46,8 @@ export class LivroController {
         form.reset();
         await this.listarLivros();
     }
+    static async excluirLivro(id: number): Promise<void> {
+        await LivroService.excluirLivro(id);
+        await this.listarLivros();
+    }
 }

@@ -42,6 +42,16 @@ export const LivroService = {
             throw new Error(`Erro ao editar livro com ID ${id}`);
         }
     }
+    ,
+    async excluirLivro(id: number): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao excluir livro com ID ${id}`);
+        }
+    }
 
 
 };
