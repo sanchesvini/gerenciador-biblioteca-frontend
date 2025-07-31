@@ -22,4 +22,25 @@ export const UsuarioService = {
         }
         return await response.json();
     },
+    async obterUsuarioPorId(id: number): Promise<UsuarioResponse> {
+        const response = await fetch(`${API_BASE_URL}/${id}`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar usuario com ID ${id}`);
+        }
+        return await response.json();
+    },
+    async editarUsuario(id: number, usuario: UsuarioRequest): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao editar usuario com ID ${id}`);
+        }
+    }
+    ,
 }
