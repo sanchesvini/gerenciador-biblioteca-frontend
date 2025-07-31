@@ -1,4 +1,3 @@
-import { LivroController } from '../controllers/LivroController';
 import type { LivroRequest } from '../models/livro';
 
 export async function formularioLivro(
