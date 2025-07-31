@@ -1,0 +1,46 @@
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: white;
+  padding: 1rem;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+#btn-livros,
+#btn-usuarios {
+  background-color: #d9d9d9;
+  color: #000;
+  border: 1px solid #000;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 7px;
+  font-size: 1rem;
+}
+#btn-livros:hover,
+#btn-usuarios:hover {
+  background-color: #c0c0c0;
+}
+#btn-livros.selected,
+#btn-usuarios.selected {
+  background-color: #96e7ce;
+  color: #000;
+}
+
+.acoes-menu button {
+  margin-left: 1rem;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.acoes-menu button:hover {
+  background-color: #3e5870;
+}
