@@ -45,6 +45,7 @@ export class UsuarioController {
     }
 
     static async excluirUsuario(id: number): Promise<void> {
-
+        await UsuarioService.excluirUsuario(id);
+        carregarUsuarios();
     }
 }
