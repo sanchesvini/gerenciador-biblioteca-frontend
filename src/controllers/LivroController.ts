@@ -77,4 +77,37 @@ export class LivroController {
         form.reset();
         carregarLivros();
     }
+    static async verEmprestimo(id: number): Promise<void> {
+        const livro = await LivroService.obterLivroPorId(id);
+
+        if (!livro.nomeUsuario) {
+            alert("Este livro não está emprestado.");
+            return;
+        }
+
+        const container = document.getElementById('formulario-livro');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const livrosEmprestados: LivroResponse[] = [];
+
+        const usuario = { id: 0, nome: livro.nomeUsuario, livrosEmprestados };
+        const form = await formularioLivro(
+            () => LivroController.devolverLivro(id),
+            livro,
+            [usuario],
+            true
+        );
+
+        container.appendChild(form);
+    }
+    static async devolverLivro(id: number): Promise<void> {
+        await LivroService.devolverLivro(id);
+        await carregarLivros();
+
+        const container = document.getElementById('formulario-livro');
+        if (container) {
+            container.innerHTML = '';
+        }
+    }
 }
