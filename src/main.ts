@@ -1,8 +1,10 @@
 import { formularioLivro } from "./components/LivroForm";
+import { formularioUsuario } from "./components/UsuarioForm";
 import { LivroController } from "./controllers/LivroController";
+import { UsuarioController } from "./controllers/UsuarioController";
 import { carregarLivros } from "./ui/LivroUI";
 
-async function inicializarFormulario() {
+async function inicializarFormularioLivro() {
     const container = document.getElementById('formulario-livro');
     if (!container) return;
 
@@ -10,7 +12,17 @@ async function inicializarFormulario() {
     container.appendChild(form);
 }
 
+async function inicializarFormularioUsuario() {
+    const container = document.getElementById('formulario-usuario');
+    if (!container) return;
+
+    const form = await formularioUsuario(UsuarioController.cadastrarUsuario);
+    container.appendChild(form);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     carregarLivros();
-    inicializarFormulario();
+    inicializarFormularioLivro();
+    inicializarFormularioUsuario();
+
 });
