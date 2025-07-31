@@ -21,6 +21,14 @@ export async function itemLivros(): Promise<HTMLTableRowElement[]> {
             LivroController.carregarFormEditarLivro(livro.id);
         });
 
+        const botaoExcluir = tr.querySelector('.btn-excluir');
+        botaoExcluir?.addEventListener('click', async () => {
+            if (confirm(`Deseja excluir o livro "${livro.titulo}"?`)) {
+                await LivroController.excluirLivro(livro.id);
+
+            }
+        });
+
 
         return tr;
     });
