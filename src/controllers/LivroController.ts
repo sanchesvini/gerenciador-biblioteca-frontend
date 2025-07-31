@@ -1,6 +1,7 @@
 import { formularioLivro } from "../components/LivroForm";
 import type { LivroRequest, LivroResponse } from "../models/livro";
 import { LivroService } from "../services/LivroService";
+import { carregarLivros } from "../ui/LivroUI";
 
 export class LivroController {
     static async cadastrarLivro(form: HTMLFormElement): Promise<void> {
@@ -13,6 +14,7 @@ export class LivroController {
 
         await LivroService.cadastrarLivro(novoLivro);
         form.reset();
+        carregarLivros();
 
     }
     static async listarLivros(): Promise<LivroResponse[]> {
@@ -44,10 +46,10 @@ export class LivroController {
 
         await LivroService.editarLivro(id, livroEditado);
         form.reset();
-        await this.listarLivros();
+        carregarLivros();
     }
     static async excluirLivro(id: number): Promise<void> {
         await LivroService.excluirLivro(id);
-        await this.listarLivros();
+        carregarLivros();
     }
 }
