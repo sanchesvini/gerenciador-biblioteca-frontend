@@ -123,7 +123,7 @@ export function modalConfirmar(
 
     container.querySelector('#btn-confirmar')?.addEventListener('click', async () => {
         await onConfirm();
-        //container.remove();
+
     });
     container.querySelector('#btn-cancelar')?.addEventListener('click', () => {
         container.remove();

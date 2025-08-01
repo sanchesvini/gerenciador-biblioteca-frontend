@@ -1,12 +1,17 @@
-import { itemUsuarios } from "../components/ItemUsuarios";
 
+import { usuarioTable } from "../components/usuario-table/UsuarioTable";
 
 export async function carregarUsuarios() {
-    const container = document.getElementById('tbody-usuarios');
-    if (!container) return;
-    const itensLivros: HTMLTableRowElement[] = await itemUsuarios();
+
+    const listaLivros = document.getElementById('lista-livros');
+    const container = document.getElementById('lista-usuarios');
+
+    if (!listaLivros || !container) return;
+
+    listaLivros.hidden = true;
+    container.hidden = false;
     container.innerHTML = '';
-    itensLivros.forEach(item => {
-        container.appendChild(item);
-    });
+
+    const table = await usuarioTable();
+    container.appendChild(table);
 }
