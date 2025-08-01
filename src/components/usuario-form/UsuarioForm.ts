@@ -1,5 +1,4 @@
 import type { UsuarioRequest } from '../../models/usuario';
-import { carregarUsuarios } from '../../ui/UsuarioUI';
 import { mostrarMensagem } from '../modal/Modal';
 import './usuario-form.css';
 
