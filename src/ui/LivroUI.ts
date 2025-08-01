@@ -1,11 +1,12 @@
-import { itemLivros } from "../components/ItemLivros";
+import { livroTable } from "../components/livro-table/LivroTable";
 
 export async function carregarLivros() {
-    const container = document.getElementById('tbody-livros');
+
+    const container = document.getElementById('lista-livros');
     if (!container) return;
-    const itensLivros: HTMLTableRowElement[] = await itemLivros();
-    container.innerHTML = ''; // Limpa o conteúdo existente
-    itensLivros.forEach(item => {
-        container.appendChild(item);
-    });
+    container.innerHTML = '';
+    const table = await livroTable();
+
+    container.appendChild(table);
+
 }

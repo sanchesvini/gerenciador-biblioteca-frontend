@@ -62,7 +62,6 @@ export async function formularioLivro(
       await onSubmit(form);
 
       mostrarMensagem('sucesso', somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!", 'modalLivro');
-      form.reset();
       carregarLivros();
 
     } catch (error) {

@@ -14,9 +14,9 @@ export function menu(): HTMLElement {
     header.innerHTML = `
         <h1 class="logo">Biblioteca</h1>
         <nav class="nav-menu">
-      <button id="btn-livros">Livros</button>
-      <button id="btn-usuarios">Usuários</button>
-      </nav>
+            <button id="btn-livros">Livros</button>
+            <button id="btn-usuarios">Usuários</button>
+        </nav>
       
   `;
 
@@ -25,6 +25,7 @@ export function menu(): HTMLElement {
     btnLivros.classList.add('selected');
 
     if (btnLivros.classList.contains('selected')) {
+        carregarLivros();
         const areaAcoes = document.getElementById('area-acoes');
         if (areaAcoes) {
             areaAcoes.innerHTML = '';
@@ -54,6 +55,7 @@ export function menu(): HTMLElement {
     });
 
     btnUsuarios.addEventListener('click', () => {
+        carregarUsuarios();
         btnUsuarios.classList.add('selected');
         btnLivros.classList.remove('selected');
         const areaAcoes = document.getElementById('area-acoes');

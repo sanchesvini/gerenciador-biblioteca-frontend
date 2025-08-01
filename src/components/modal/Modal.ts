@@ -95,15 +95,7 @@ export function mostrarMensagem(tipo: 'sucesso' | 'erro', mensagem: string, idMo
     sectionMsg.innerHTML = `
         <p id="mensagem-conteudo">${mensagem}</p>
     `;
-    setTimeout(() => {
-        console.log(`Fechando modal`);
-        const modalContainer = document.querySelector(`#${idModal}`) as HTMLDialogElement;
-        if (modalContainer) {
-            modalContainer.classList.remove('modal');
-            modalContainer.close();
-            modalContainer.remove();
-        }
-    }, 5000);
+
 
 }
 
