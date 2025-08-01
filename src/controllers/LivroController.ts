@@ -1,4 +1,3 @@
-import { formularioLivro } from "../components/livro-form/LivroForm";
 import { abrirModalLivro } from "../components/modal/Modal";
 import type { LivroRequest, LivroResponse } from "../models/livro";
 import { LivroService } from "../services/LivroService";
@@ -13,10 +12,12 @@ export class LivroController {
             autor: formData.get("autor") as string,
             anoPublicacao: parseInt(formData.get("anoPublicacao") as string),
         };
+        try {
+            await LivroService.cadastrarLivro(novoLivro);
 
-        await LivroService.cadastrarLivro(novoLivro);
-
-        carregarLivros();
+        } catch (error) {
+            throw error;
+        }
 
     }
     static async listarLivros(): Promise<LivroResponse[]> {
@@ -41,14 +42,18 @@ export class LivroController {
             autor: formData.get("autor") as string,
             anoPublicacao: parseInt(formData.get("anoPublicacao") as string),
         };
-
-        await LivroService.editarLivro(id, livroEditado);
-        form.reset();
-        carregarLivros();
+        try {
+            await LivroService.editarLivro(id, livroEditado);
+        } catch (error) {
+            throw error;
+        }
     }
     static async excluirLivro(id: number): Promise<void> {
-        await LivroService.excluirLivro(id);
-        carregarLivros();
+        try {
+            await LivroService.excluirLivro(id);
+        } catch (error) {
+            throw error;
+        }
     }
     static async carregarFormEmprestarLivro(id: number): Promise<void> {
         const livro = await LivroService.obterLivroPorId(id);
@@ -64,16 +69,17 @@ export class LivroController {
     static async emprestarLivro(form: HTMLFormElement, id: number): Promise<void> {
         const formData = new FormData(form);
         const idUsuario = parseInt(formData.get("usuarioId") as string);
-
-        await LivroService.emprestarLivro(id, idUsuario);
-        carregarLivros();
+        try {
+            await LivroService.emprestarLivro(id, idUsuario);
+        } catch (error) {
+            throw error;
+        }
     }
     static async verEmprestimo(id: number): Promise<void> {
         const livro = await LivroService.obterLivroPorId(id);
 
         if (!livro.nomeUsuario) {
-            alert("Este livro não está emprestado.");
-            return;
+            throw new Error("Este livro não está emprestado.");
         };
         const livrosEmprestados: LivroResponse[] = [];
         const usuario = { id: 0, nome: livro.nomeUsuario, livrosEmprestados };
@@ -84,8 +90,13 @@ export class LivroController {
         await abrirModalLivro(onSubmit, livro, [usuario], true);
     }
     static async devolverLivro(id: number): Promise<void> {
-        await LivroService.devolverLivro(id);
-        await carregarLivros();
+        try {
+            await LivroService.devolverLivro(id);
+        }
+        catch (error) {
+            throw error;
+        }
+
 
     }
 }

@@ -12,20 +12,23 @@ export const LivroService = {
             body: JSON.stringify(livro)
         });
         if (!response.ok) {
-            throw new Error(`Erro ao cadastrar livro`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao cadastrar livro');
         }
     },
     async listarLivros(): Promise<LivroResponse[]> {
         const response = await fetch(API_BASE_URL);
         if (!response.ok) {
-            throw new Error(`Erro ao listar livros`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao buscar livros');
         }
         return await response.json();
     },
     async obterLivroPorId(id: number): Promise<LivroResponse> {
         const response = await fetch(`${API_BASE_URL}/${id}`);
         if (!response.ok) {
-            throw new Error(`Erro ao buscar livro com ID ${id}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao buscar livro');
         }
         return await response.json();
     },
@@ -39,7 +42,8 @@ export const LivroService = {
         });
 
         if (!response.ok) {
-            throw new Error(`Erro ao editar livro com ID ${id}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao editar livro');
         }
     }
     ,
@@ -49,7 +53,8 @@ export const LivroService = {
         });
 
         if (!response.ok) {
-            throw new Error(`Erro ao excluir livro com ID ${id}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao deletar livro');
         }
     }
     ,
@@ -59,7 +64,8 @@ export const LivroService = {
         });
 
         if (!response.ok) {
-            throw new Error(`Erro ao emprestar livro com ID ${idLivro}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao emprestar livro');
         }
     },
     async devolverLivro(id: number): Promise<void> {
@@ -68,7 +74,8 @@ export const LivroService = {
         });
 
         if (!response.ok) {
-            throw new Error("Erro ao devolver livro.");
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao devolver livro');
         }
     }
 

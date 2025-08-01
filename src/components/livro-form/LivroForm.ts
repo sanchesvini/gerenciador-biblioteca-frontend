@@ -1,5 +1,7 @@
 import type { LivroRequest } from '../../models/livro';
 import type { UsuarioResponse } from '../../models/usuario';
+import { carregarLivros } from '../../ui/LivroUI';
+import { mostrarMensagem } from '../modal/Modal';
 import './livro-form.css';
 
 export async function formularioLivro(
@@ -55,13 +57,22 @@ export async function formularioLivro(
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
     try {
       await onSubmit(form);
-      alert(somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!");
+
+      mostrarMensagem('sucesso', somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!");
+      form.reset();
+      carregarLivros();
+
     } catch (error) {
-      console.error(error);
-      alert("Erro ao salvar livro.");
+      if (error && typeof error === 'object' && 'message' in error) {
+        mostrarMensagem('erro', (error as { message: string }).message);
+      } else {
+        mostrarMensagem('erro', 'Erro ao processar o livro');
+      }
     }
+
   });
 
   return form;

@@ -24,7 +24,7 @@ export class UsuarioController {
         const container = document.getElementById('formulario-usuario');
         if (!container) return;
 
-        container.innerHTML = ''; // limpa formulário anterior
+        container.innerHTML = '';
 
         const form = await formularioUsuario(
             (form) => UsuarioController.editarUsuario(form, id),

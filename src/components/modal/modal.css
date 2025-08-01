@@ -57,3 +57,13 @@
   background: #e57373;
   color: #fff;
 }
+.mensagem-sucesso,
+.mensagem-erro {
+  padding: 1rem;
+}
+.mensagem-erro {
+  background-color: #e79696;
+}
+.mensagem-sucesso {
+  background-color: #cce796;
+}
