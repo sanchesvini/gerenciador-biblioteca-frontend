@@ -1,5 +1,6 @@
-import type { LivroRequest } from '../models/livro';
-import type { UsuarioResponse } from '../models/usuario';
+import type { LivroRequest } from '../../models/livro';
+import type { UsuarioResponse } from '../../models/usuario';
+import './livro-form.css';
 
 export async function formularioLivro(
   onSubmit: (form: HTMLFormElement) => Promise<void>,
@@ -13,8 +14,7 @@ export async function formularioLivro(
   const readonlyAttr = somenteLeitura ? 'readonly' : '';
 
   const selectHTML = usuarios ? `
-  <label>
-    ${somenteLeitura ? 'emprestado para:' : 'emprestar para:'}
+  <label data-label="${somenteLeitura ? 'emprestado para' : 'emprestar para'}">
     <select name="usuarioId" required ${readonlyAttr}>
       ${!somenteLeitura ? '<option value="">Selecione</option>' : ''}
       ${usuarios.map(user => `
@@ -22,38 +22,35 @@ export async function formularioLivro(
       `).join('')}
     </select>
   </label>
-  <br />
 ` : '';
 
-  form.innerHTML = `
-    <h2>${livro ? 'Editar livro' : 'Cadastrar novo livro'}</h2>
-    <label>
-      Título:
-      <input type="text" name="titulo" required value="${livro?.titulo ?? ''}" ${readonlyAttr} />
-    </label>
-    <br />
-    <label>
-      Autor:
-      <input type="text" name="autor" required value="${livro?.autor ?? ''}" ${readonlyAttr}/>
-    </label>
-    <br />
-    <label>
-      Ano de Publicação:
-      <input type="number" name="anoPublicacao" required value="${livro?.anoPublicacao ?? ''}" ${readonlyAttr}/>
-    </label>
-    <br />
-    ${selectHTML}
 
-<button type="submit">
-  ${somenteLeitura
+  form.innerHTML = `
+  <label data-label="titulo">
+    <input type="text" name="titulo" required value="${livro?.titulo ?? ''}" ${readonlyAttr} />
+  </label>
+
+  <label data-label="autor">
+    <input type="text" name="autor" required value="${livro?.autor ?? ''}" ${readonlyAttr}/>
+  </label>
+
+  <label data-label="ano de publicação">
+    <input type="number" name="anoPublicacao" required value="${livro?.anoPublicacao ?? ''}" ${readonlyAttr}/>
+  </label>
+
+  ${selectHTML}
+
+  <button type="submit">
+    ${somenteLeitura
       ? 'Devolver'
       : usuarios
         ? 'Emprestar'
         : livro
           ? 'Salvar'
           : 'Cadastrar'}
-</button>
-  `;
+  </button>
+`;
+
 
 
   form.addEventListener('submit', async (event) => {
