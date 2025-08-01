@@ -1,6 +1,6 @@
-import { LivroController } from "../controllers/LivroController";
-import { modalConfirmar, mostrarMensagem } from "./modal/Modal";
-
+import { LivroController } from "../../controllers/LivroController";
+import { modalConfirmar, mostrarMensagem } from "../modal/Modal";
+import './item-livros.css';
 export async function itemLivros(): Promise<HTMLTableRowElement[]> {
     const livros = await LivroController.listarLivros();
 
@@ -17,17 +17,20 @@ export async function itemLivros(): Promise<HTMLTableRowElement[]> {
             </td>
         `;
 
-        if (livro.disponivel == 1) {
-            const botaoEmprestar = tr.querySelector('.btn-emprestar');
-            botaoEmprestar?.addEventListener('click', () => {
-                LivroController.carregarFormEmprestarLivro(livro.id); // Aqui você pode substituir 1 pelo ID do usuário real
-            });
-        }
-        else {
-            const botaoEmprestar = tr.querySelector('.btn-emprestar');
-            botaoEmprestar?.addEventListener('click', () => {
-                LivroController.verEmprestimo(livro.id);
-            });
+        const botaoEmprestar = tr.querySelector('.btn-emprestar');
+        if (botaoEmprestar) {
+            if (livro.disponivel == 1) {
+                botaoEmprestar.addEventListener('click', () => {
+                    LivroController.carregarFormEmprestarLivro(livro.id);
+                });
+            } else {
+                botaoEmprestar.textContent = 'emprestado';
+                botaoEmprestar.classList.add('emprestado');
+
+                botaoEmprestar.addEventListener('click', () => {
+                    LivroController.verEmprestimo(livro.id);
+                });
+            }
         }
 
 
