@@ -1,6 +1,5 @@
 import { LivroController } from "../../controllers/LivroController";
 import { UsuarioController } from "../../controllers/UsuarioController";
-import { LivroService } from "../../services/LivroService";
 import { carregarLivros } from "../../ui/LivroUI";
 import { carregarUsuarios } from "../../ui/UsuarioUI";
 import { botaoCadastrar } from "../botao-cadastrar/BotaoCadastrar";
