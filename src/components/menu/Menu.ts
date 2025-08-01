@@ -1,7 +1,9 @@
+import { LivroController } from "../../controllers/LivroController";
+import { LivroService } from "../../services/LivroService";
 import { carregarLivros } from "../../ui/LivroUI";
 import { carregarUsuarios } from "../../ui/UsuarioUI";
 import { botaoCadastrar } from "../botao-cadastrar/BotaoCadastrar";
-import { abrirModalLivro, abrirModalUsuario } from "../Modal";
+import { abrirModalLivro, abrirModalUsuario } from "../modal/Modal";
 import './menu.css';
 
 export function menu(): HTMLElement {
@@ -25,7 +27,12 @@ export function menu(): HTMLElement {
         const areaAcoes = document.getElementById('area-acoes');
         if (areaAcoes) {
             areaAcoes.innerHTML = '';
-            areaAcoes.appendChild(botaoCadastrar("cadastrar livro", abrirModalLivro));
+            areaAcoes.appendChild(botaoCadastrar("cadastrar livro", () =>
+                abrirModalLivro(async (form) => {
+                    await LivroController.cadastrarLivro(form);
+                    carregarLivros();
+                })
+            ));
         }
     }
 
@@ -35,10 +42,14 @@ export function menu(): HTMLElement {
         const areaAcoes = document.getElementById('area-acoes');
         if (areaAcoes) {
             areaAcoes.innerHTML = '';
-            areaAcoes.appendChild(botaoCadastrar("cadastrar livro", abrirModalLivro));
-        }
+            areaAcoes.appendChild(botaoCadastrar("cadastrar livro", () =>
+                abrirModalLivro(async (form) => {
+                    await LivroController.cadastrarLivro(form);
+                    carregarLivros();
+                })
+            ));
 
-        carregarLivros();
+        }
     });
 
     btnUsuarios.addEventListener('click', () => {

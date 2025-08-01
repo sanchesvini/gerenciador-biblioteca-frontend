@@ -1,4 +1,4 @@
-import { formularioLivro } from "../components/LivroForm";
+import { abrirModalLivro } from "../components/modal/Modal";
 import type { LivroRequest, LivroResponse } from "../models/livro";
 import { LivroService } from "../services/LivroService";
 import { UsuarioService } from "../services/UsuarioService";
@@ -12,10 +12,12 @@ export class LivroController {
             autor: formData.get("autor") as string,
             anoPublicacao: parseInt(formData.get("anoPublicacao") as string),
         };
+        try {
+            await LivroService.cadastrarLivro(novoLivro);
 
-        await LivroService.cadastrarLivro(novoLivro);
-        form.reset();
-        carregarLivros();
+        } catch (error) {
+            throw error;
+        }
 
     }
     static async listarLivros(): Promise<LivroResponse[]> {
@@ -24,18 +26,14 @@ export class LivroController {
     }
     static async carregarFormEditarLivro(id: number): Promise<void> {
         const livro = await LivroService.obterLivroPorId(id);
-        const container = document.getElementById('formulario-livro');
-        if (!container) return;
 
-        container.innerHTML = ''; // limpa formulário anterior
+        const onSubmit = async (form: HTMLFormElement) => {
+            await LivroController.editarLivro(form, id);
+        };
 
-        const form = await formularioLivro(
-            (form) => LivroController.editarLivro(form, id),
-            livro
-        );
-
-        container.appendChild(form);
+        await abrirModalLivro(onSubmit, livro);
     }
+
 
     static async editarLivro(form: HTMLFormElement, id: number): Promise<void> {
         const formData = new FormData(form);
@@ -44,70 +42,61 @@ export class LivroController {
             autor: formData.get("autor") as string,
             anoPublicacao: parseInt(formData.get("anoPublicacao") as string),
         };
-
-        await LivroService.editarLivro(id, livroEditado);
-        form.reset();
-        carregarLivros();
+        try {
+            await LivroService.editarLivro(id, livroEditado);
+        } catch (error) {
+            throw error;
+        }
     }
     static async excluirLivro(id: number): Promise<void> {
-        await LivroService.excluirLivro(id);
-        carregarLivros();
+        try {
+            await LivroService.excluirLivro(id);
+        } catch (error) {
+            throw error;
+        }
     }
     static async carregarFormEmprestarLivro(id: number): Promise<void> {
         const livro = await LivroService.obterLivroPorId(id);
         const usuarios = await UsuarioService.listarUsuarios();
-        const container = document.getElementById('formulario-livro');
-        if (!container) return;
 
-        container.innerHTML = '';
 
-        const form = await formularioLivro(
-            (form) => LivroController.emprestarLivro(form, id),
-            livro,
-            usuarios
-        );
+        const onSubmit = async (form: HTMLFormElement) => {
+            await LivroController.emprestarLivro(form, id);
 
-        container.appendChild(form);
+        };
+        await abrirModalLivro(onSubmit, livro, usuarios);
     }
     static async emprestarLivro(form: HTMLFormElement, id: number): Promise<void> {
         const formData = new FormData(form);
         const idUsuario = parseInt(formData.get("usuarioId") as string);
-
-        await LivroService.emprestarLivro(id, idUsuario);
-        form.reset();
-        carregarLivros();
+        try {
+            await LivroService.emprestarLivro(id, idUsuario);
+        } catch (error) {
+            throw error;
+        }
     }
     static async verEmprestimo(id: number): Promise<void> {
         const livro = await LivroService.obterLivroPorId(id);
 
         if (!livro.nomeUsuario) {
-            alert("Este livro não está emprestado.");
-            return;
-        }
-
-        const container = document.getElementById('formulario-livro');
-        if (!container) return;
-        container.innerHTML = '';
-
+            throw new Error("Este livro não está emprestado.");
+        };
         const livrosEmprestados: LivroResponse[] = [];
-
         const usuario = { id: 0, nome: livro.nomeUsuario, livrosEmprestados };
-        const form = await formularioLivro(
-            () => LivroController.devolverLivro(id),
-            livro,
-            [usuario],
-            true
-        );
 
-        container.appendChild(form);
+        const onSubmit = async (form: HTMLFormElement) => {
+            await LivroController.devolverLivro(id);
+        };
+        await abrirModalLivro(onSubmit, livro, [usuario], true);
     }
     static async devolverLivro(id: number): Promise<void> {
-        await LivroService.devolverLivro(id);
-        await carregarLivros();
-
-        const container = document.getElementById('formulario-livro');
-        if (container) {
-            container.innerHTML = '';
+        try {
+            await LivroService.devolverLivro(id);
         }
+        catch (error) {
+            throw error;
+        }
+
+
     }
 }
