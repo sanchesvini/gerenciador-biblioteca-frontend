@@ -1,4 +1,6 @@
 import { UsuarioController } from "../controllers/UsuarioController";
+import { carregarUsuarios } from "../ui/UsuarioUI";
+import { modalConfirmar, mostrarMensagem } from "./modal/Modal";
 
 export async function itemUsuarios(): Promise<HTMLTableRowElement[]> {
     const usuarios = await UsuarioController.listarUsuarios();
@@ -23,10 +25,20 @@ export async function itemUsuarios(): Promise<HTMLTableRowElement[]> {
 
         const botaoExcluir = tr.querySelector('.btn-excluir');
         botaoExcluir?.addEventListener('click', async () => {
-            if (confirm(`Deseja excluir o usuario "${usuario.nome}"?`)) {
-                await UsuarioController.excluirUsuario(usuario.id);
-
-            }
+            modalConfirmar(async () => {
+                try {
+                    await UsuarioController.excluirUsuario(usuario.id);
+                    mostrarMensagem('sucesso', 'Usuário excluido com sucesso', 'modalConfirmar');
+                }
+                catch (error) {
+                    if (error && typeof error === 'object' && 'message' in error) {
+                        mostrarMensagem('erro', (error as { message: string }).message, 'modalConfirmar');
+                    } else {
+                        mostrarMensagem('erro', 'Erro ao excluir usuário', 'modalConfirmar');
+                    }
+                }
+            });
+            carregarUsuarios();
         });
         return tr;
     });

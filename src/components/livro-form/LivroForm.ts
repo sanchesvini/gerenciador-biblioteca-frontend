@@ -61,15 +61,15 @@ export async function formularioLivro(
     try {
       await onSubmit(form);
 
-      mostrarMensagem('sucesso', somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!");
+      mostrarMensagem('sucesso', somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!", 'modalLivro');
       form.reset();
       carregarLivros();
 
     } catch (error) {
       if (error && typeof error === 'object' && 'message' in error) {
-        mostrarMensagem('erro', (error as { message: string }).message);
+        mostrarMensagem('erro', (error as { message: string }).message, 'modalLivro');
       } else {
-        mostrarMensagem('erro', 'Erro ao processar o livro');
+        mostrarMensagem('erro', 'Erro ao processar o livro', 'modalLivro');
       }
     }
 

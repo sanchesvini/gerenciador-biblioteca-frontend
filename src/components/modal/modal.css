@@ -20,8 +20,27 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
   position: relative;
 }
-.modal-form {
+.modal-form,
+#confirmar {
   padding: 1rem;
+}
+#confirmar p {
+  margin: 0;
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+#btn-confirmar,
+#btn-cancelar {
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: lowercase;
+  width: fit-content;
+}
+#btn-confirmar {
+  background-color: #c9ef9f;
 }
 
 .modal-header {

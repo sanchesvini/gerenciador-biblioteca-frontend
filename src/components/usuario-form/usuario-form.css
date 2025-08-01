@@ -1,4 +1,4 @@
-#form-usuario {
+#form-livro {
   padding: 1.5rem;
   border-radius: 8px;
   width: 100%;
@@ -10,12 +10,13 @@
   box-sizing: border-box;
 }
 
-#form-usuario label {
+#form-livro label {
   position: relative;
   display: block;
 }
 
-#form-usuario input {
+#form-livro input,
+#form-livro select {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #333;
@@ -24,7 +25,7 @@
   box-sizing: border-box;
 }
 
-#form-usuario label::before {
+#form-livro label::before {
   content: attr(data-label);
   position: absolute;
   top: -0.75rem;
@@ -36,7 +37,7 @@
   border-radius: 8px;
 }
 
-#form-usuario button[type="submit"] {
+#form-livro button[type="submit"] {
   background-color: #c9ef9f;
   border: 1px solid #333;
   border-radius: 10px;

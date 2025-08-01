@@ -1,9 +1,10 @@
 import type { LivroRequest } from "../../models/livro";
 import type { UsuarioResponse } from "../../models/usuario";
 import { formularioLivro } from "../livro-form/LivroForm";
+import { formularioUsuario } from "../usuario-form/UsuarioForm";
 import "./modal.css"
 
-function criarModal(titulo: string, form: HTMLElement, id: string): HTMLDialogElement {
+function criarModalForms(titulo: string, form: HTMLElement, id: string): HTMLDialogElement {
     const container = document.createElement('dialog');
     container.id = id;
     container.classList.add('modal');
@@ -35,18 +36,15 @@ function criarModal(titulo: string, form: HTMLElement, id: string): HTMLDialogEl
     return container;
 }
 
+
 export async function abrirModalLivro(
     onSubmit: (form: HTMLFormElement) => Promise<void>,
     livro?: LivroRequest,
     usuarios?: UsuarioResponse[],
     somenteLeitura: boolean = false
 ): Promise<void> {
-    const container = document.getElementById('modalLivro');
-    if (!container) return;
 
     const form = await formularioLivro(onSubmit, livro, usuarios, somenteLeitura);
-
-    container.appendChild(form);
 
     const titulo = somenteLeitura
         ? 'Informações do empréstimo'
@@ -56,36 +54,93 @@ export async function abrirModalLivro(
                 ? 'Editar livro'
                 : 'Cadastrar novo livro';
 
-    const modal = criarModal(titulo, form, 'modalLivro');
+    const modal = criarModalForms(titulo, form, 'modalLivro');
     document.body.appendChild(modal);
     modal.showModal();
 }
 
 
-export function abrirModalUsuario(): void {
-    //const modal = criarModal('Novo Usuário', 'Conteúdo do formulário de usuário', 'modalUsuario');
-    //document.body.appendChild(modal);
+export async function abrirModalUsuario(
+    onSubmit: (form: HTMLFormElement) => Promise<void>,
+    usuario?: UsuarioResponse
+): Promise<void> {
+
+    const form = await formularioUsuario(onSubmit, usuario);
+
+
+    const titulo = usuario
+        ? 'editar usuario'
+        : 'cadastrar novo usuario';
+
+    const modal = criarModalForms(titulo, form, 'modalUsuario');
+    document.body.appendChild(modal);
+    modal.showModal();
 }
 
 export function fecharModal(modal: string): void {
     console.log(`Fechando modal: ${modal}`);
     const modalContainer = document.querySelector("#" + modal) as HTMLDialogElement;
     if (modalContainer) {
-        modalContainer.innerHTML = '';
+        modalContainer.close();
     }
 }
 
-export function mostrarMensagem(tipo: 'sucesso' | 'erro', mensagem: string): void {
+export function mostrarMensagem(tipo: 'sucesso' | 'erro', mensagem: string, idModal: 'modalLivro' | 'modalUsuario' | 'modalConfirmar'): void {
+    const modalBody = document.querySelector('.modal-form') as HTMLDivElement || document.querySelector("#confirmar") as HTMLDivElement;
+    if (!modalBody) return;
+    modalBody.hidden = true;
     const sectionMsg = document.querySelector('#mensagem') as HTMLDivElement;
     if (!sectionMsg) return;
     sectionMsg.className = tipo === 'sucesso' ? 'mensagem-sucesso' : 'mensagem-erro';
     sectionMsg.innerHTML = `
-        <p id="mensagem">${mensagem}</p>
+        <p id="mensagem-conteudo">${mensagem}</p>
     `;
-    // setTimeout(() => {
-    //     sectionMsg.innerHTML = '';
-    //     sectionMsg.className = '';
-    // }, 5000);
+    setTimeout(() => {
+        console.log(`Fechando modal`);
+        const modalContainer = document.querySelector(`#${idModal}`) as HTMLDialogElement;
+        if (modalContainer) {
+            modalContainer.classList.remove('modal');
+            modalContainer.close();
+            modalContainer.remove();
+        }
+    }, 5000);
 
+}
+
+export function modalConfirmar(
+    onConfirm: () => Promise<void> | void
+): void {
+    const container = document.createElement('dialog');
+    container.classList.add('modal');
+    container.id = 'modalConfirmar';
+
+    container.innerHTML = `
+    <main class="modal-conteudo">
+        <header class="modal-header">
+            <h2>excluir</h2>
+            <button class="fechar-modal">X</button>
+        </header>
+        <section id="confirmar">
+            <p>Deseja realmente excluir?</p>
+            <button id="btn-confirmar">Confirmar</button>
+            <button id="btn-cancelar">Cancelar</button>
+        </section>
+        <section id="mensagem"></section>
+    </main>
+    `;
+
+    container.querySelector('#btn-confirmar')?.addEventListener('click', async () => {
+        await onConfirm();
+        //container.remove();
+    });
+    container.querySelector('#btn-cancelar')?.addEventListener('click', () => {
+        container.remove();
+    });
+    container.querySelector('.fechar-modal')?.addEventListener('click', () => {
+        container.remove();
+    });
+
+    document.body.appendChild(container);
+    container.showModal();
 }
 

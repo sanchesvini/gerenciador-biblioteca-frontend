@@ -1,4 +1,5 @@
 import { LivroController } from "../../controllers/LivroController";
+import { UsuarioController } from "../../controllers/UsuarioController";
 import { LivroService } from "../../services/LivroService";
 import { carregarLivros } from "../../ui/LivroUI";
 import { carregarUsuarios } from "../../ui/UsuarioUI";
@@ -58,7 +59,12 @@ export function menu(): HTMLElement {
         const areaAcoes = document.getElementById('area-acoes');
         if (areaAcoes) {
             areaAcoes.innerHTML = '';
-            areaAcoes.appendChild(botaoCadastrar("cadastrar usuário", abrirModalUsuario));
+            areaAcoes.appendChild(botaoCadastrar("cadastrar usuário", () =>
+                abrirModalUsuario(async (form) => {
+                    await UsuarioController.cadastrarUsuario(form);
+                    carregarUsuarios();
+                })
+            ));
         }
 
         carregarUsuarios();
