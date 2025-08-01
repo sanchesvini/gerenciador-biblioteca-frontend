@@ -1,6 +1,6 @@
 import { formularioLivro } from "./components/livro-form/LivroForm";
 import { menu } from "./components/menu/Menu";
-import { formularioUsuario } from "./components/UsuarioForm";
+import { formularioUsuario } from "./components/usuario-form/UsuarioForm";
 import { LivroController } from "./controllers/LivroController";
 import { UsuarioController } from "./controllers/UsuarioController";
 import { carregarLivros } from "./ui/LivroUI";

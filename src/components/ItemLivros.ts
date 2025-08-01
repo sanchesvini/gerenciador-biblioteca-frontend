@@ -1,4 +1,5 @@
 import { LivroController } from "../controllers/LivroController";
+import { modalConfirmar, mostrarMensagem } from "./modal/Modal";
 
 export async function itemLivros(): Promise<HTMLTableRowElement[]> {
     const livros = await LivroController.listarLivros();
@@ -37,10 +38,19 @@ export async function itemLivros(): Promise<HTMLTableRowElement[]> {
 
         const botaoExcluir = tr.querySelector('.btn-excluir');
         botaoExcluir?.addEventListener('click', async () => {
-            if (confirm(`Deseja excluir o livro "${livro.titulo}"?`)) {
-                await LivroController.excluirLivro(livro.id);
-
-            }
+            modalConfirmar(async () => {
+                try {
+                    await LivroController.excluirLivro(livro.id);
+                    mostrarMensagem('sucesso', 'Livro excluido com sucesso', 'modalConfirmar');
+                }
+                catch (error) {
+                    if (error && typeof error === 'object' && 'message' in error) {
+                        mostrarMensagem('erro', (error as { message: string }).message, 'modalConfirmar');
+                    } else {
+                        mostrarMensagem('erro', 'Erro ao excluir livro', 'modalConfirmar');
+                    }
+                }
+            });
         });
 
 
