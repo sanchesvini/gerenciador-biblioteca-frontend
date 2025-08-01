@@ -1,6 +1,6 @@
-import { UsuarioController } from "../controllers/UsuarioController";
-import { carregarUsuarios } from "../ui/UsuarioUI";
-import { modalConfirmar, mostrarMensagem } from "./modal/Modal";
+import { UsuarioController } from "../../controllers/UsuarioController";
+import { carregarUsuarios } from "../../ui/UsuarioUI";
+import { modalConfirmar, mostrarMensagem } from "../modal/Modal";
 
 export async function itemUsuarios(): Promise<HTMLTableRowElement[]> {
     const usuarios = await UsuarioController.listarUsuarios();
@@ -29,6 +29,7 @@ export async function itemUsuarios(): Promise<HTMLTableRowElement[]> {
                 try {
                     await UsuarioController.excluirUsuario(usuario.id);
                     mostrarMensagem('sucesso', 'Usuário excluido com sucesso', 'modalConfirmar');
+
                 }
                 catch (error) {
                     if (error && typeof error === 'object' && 'message' in error) {
@@ -38,7 +39,7 @@ export async function itemUsuarios(): Promise<HTMLTableRowElement[]> {
                     }
                 }
             });
-            carregarUsuarios();
+
         });
         return tr;
     });

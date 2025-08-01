@@ -1,6 +1,5 @@
 import type { LivroRequest } from '../../models/livro';
 import type { UsuarioResponse } from '../../models/usuario';
-import { carregarLivros } from '../../ui/LivroUI';
 import { mostrarMensagem } from '../modal/Modal';
 import './livro-form.css';
 
@@ -62,7 +61,7 @@ export async function formularioLivro(
       await onSubmit(form);
 
       mostrarMensagem('sucesso', somenteLeitura ? "Livro devolvido com sucesso!" : usuarios ? 'Livro emprestado com sucesso' : livro ? "Livro editado com sucesso!" : "Livro adicionado com sucesso!", 'modalLivro');
-      carregarLivros();
+
 
     } catch (error) {
       if (error && typeof error === 'object' && 'message' in error) {

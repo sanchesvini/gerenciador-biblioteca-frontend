@@ -39,6 +39,7 @@ export function menu(): HTMLElement {
     }
 
     btnLivros.addEventListener('click', () => {
+        carregarLivros();
         btnLivros.classList.add('selected');
         btnUsuarios.classList.remove('selected');
         const areaAcoes = document.getElementById('area-acoes');
@@ -69,7 +70,7 @@ export function menu(): HTMLElement {
             ));
         }
 
-        carregarUsuarios();
+
     });
 
     return header;

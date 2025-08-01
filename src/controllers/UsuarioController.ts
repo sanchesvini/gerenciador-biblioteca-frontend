@@ -1,6 +1,7 @@
 import { abrirModalUsuario } from "../components/modal/Modal";
 import type { UsuarioRequest, UsuarioResponse } from "../models/usuario";
 import { UsuarioService } from "../services/UsuarioService";
+import { carregarUsuarios } from "../ui/UsuarioUI";
 
 
 export class UsuarioController {
@@ -33,11 +34,14 @@ export class UsuarioController {
             nome: formData.get("nome") as string,
         };
 
+
         await UsuarioService.editarUsuario(id, usuarioEditado);
+        carregarUsuarios();
     }
 
     static async excluirUsuario(id: number): Promise<void> {
         await UsuarioService.excluirUsuario(id);
+        carregarUsuarios();
 
     }
 }

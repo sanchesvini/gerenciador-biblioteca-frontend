@@ -44,6 +44,7 @@ export class LivroController {
         };
         try {
             await LivroService.editarLivro(id, livroEditado);
+            carregarLivros();
         } catch (error) {
             throw error;
         }
@@ -51,6 +52,8 @@ export class LivroController {
     static async excluirLivro(id: number): Promise<void> {
         try {
             await LivroService.excluirLivro(id);
+            carregarLivros();
+
         } catch (error) {
             throw error;
         }
@@ -63,6 +66,7 @@ export class LivroController {
         const onSubmit = async (form: HTMLFormElement) => {
             await LivroController.emprestarLivro(form, id);
 
+
         };
         await abrirModalLivro(onSubmit, livro, usuarios);
     }
@@ -71,6 +75,8 @@ export class LivroController {
         const idUsuario = parseInt(formData.get("usuarioId") as string);
         try {
             await LivroService.emprestarLivro(id, idUsuario);
+            carregarLivros();
+
         } catch (error) {
             throw error;
         }
@@ -92,6 +98,8 @@ export class LivroController {
     static async devolverLivro(id: number): Promise<void> {
         try {
             await LivroService.devolverLivro(id);
+            carregarLivros();
+
         }
         catch (error) {
             throw error;

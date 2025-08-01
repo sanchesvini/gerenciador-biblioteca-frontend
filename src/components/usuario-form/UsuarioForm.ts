@@ -1,4 +1,5 @@
 import type { UsuarioRequest } from '../../models/usuario';
+import { carregarUsuarios } from '../../ui/UsuarioUI';
 import { mostrarMensagem } from '../modal/Modal';
 import './usuario-form.css';
 
@@ -26,9 +27,8 @@ export async function formularioUsuario(
             await onSubmit(form);
 
             mostrarMensagem('sucesso', usuario ? 'Usuário editado com sucesso!' : 'Usuário adicionado com sucesso!', 'modalUsuario');
-            form.reset();
-            const nomeInput = form.querySelector<HTMLInputElement>('input[name="nome"]');
-            if (nomeInput) nomeInput.value = ''
+
+
         } catch (error) {
             if (error && typeof error === 'object' && 'message' in error) {
                 mostrarMensagem('erro', (error as { message: string }).message, 'modalUsuario');
