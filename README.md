@@ -29,8 +29,8 @@ src/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/sanchesvini/gerenciador-biblioteca-frontend
+cd gerenciador-biblioteca-frontend
 ```
 
 ### 2. Instale as dependências
@@ -49,7 +49,9 @@ O Vite abrirá automaticamente no navegador, geralmente em [http://localhost:517
 
 ## Integração com Backend
 
-Este frontend consome uma API em `http://localhost:8080/api`. Certifique-se de que o backend esteja rodando corretamente e com **CORS habilitado** para permitir o acesso do frontend.
+Este frontend consome uma API em `http://localhost:8080/api`.
+O repositório da API encontra-se em: [gerenciador-emprestimos-api](https://github.com/sanchesvini/gerenciador-emprestimos-api).
+Certifique-se de que o backend esteja rodando corretamente e com **CORS habilitado** para permitir o acesso do frontend.
 
 **Exemplo de configuração CORS em Java (Spring Boot):**
 
